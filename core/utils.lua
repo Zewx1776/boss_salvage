@@ -161,6 +161,14 @@ function utils.get_obelisk()
     end
 end
 
+function utils.get_greater_affix_count(display_name)
+    local count = 0
+    for _ in display_name:gmatch("GreaterAffix") do
+       count = count + 1
+    end
+    return count
+end
+
 function utils.loot_on_floor()
     local items = loot_manager.get_all_items_chest_sort_by_distance()
     if #items > 0 then
