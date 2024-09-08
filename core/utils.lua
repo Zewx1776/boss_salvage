@@ -184,6 +184,18 @@ function utils.loot_on_floor()
     end
 end
 
+
+function utils.get_town_portal()
+    local actors = actors_manager:get_all_actors()
+    for _, actor in pairs(actors) do
+        local name = actor:get_skin_name()
+        if name == enums.misc.portal then
+           return actor
+        end
+    end
+end
+
+
 function utils.is_inventory_full()
     return get_local_player():get_item_count() == 33
  end

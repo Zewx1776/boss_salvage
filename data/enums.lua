@@ -5,6 +5,7 @@ local enums = {
     },
     positions = {
         blacksmith_position = vec3:new(-1685.5394287109, -596.86566162109, 37.6484375),
+        portal_position = vec3:new(-1656.7141113281, -598.21716308594, 36.28515625), 
         boss_room = {
             ["Boss_WT4_S2VampireLord"] = vec3:new(-10.556, -10.419, -3.120),
             ["Boss_WT4_Duriel"] = vec3:new(-3.616, -2.309, -3.689) ,

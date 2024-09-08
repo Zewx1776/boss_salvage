@@ -15,6 +15,8 @@ local function interact_with_altar()
     return nil
 end
 
+local boss_summon_time = 0
+
 local task = {
     name = "Interact Altar",
     shouldExecute = function()
@@ -23,11 +25,17 @@ local task = {
     end,
 
     Execute = function()
+        local current_time = get_time_since_inject()
+        
+        if boss_summon_time > 0 and current_time - boss_summon_time < 5 then
+            return  -- Wait for 10 seconds after boss summon
+        end
+
         local altar = interact_with_altar()
         if altar then
-            local actor_position = altar:get_position()  -- Abrufen der Position des Altars
+            local actor_position = altar:get_position()
             if utils.distance_to(actor_position) > 4 then
-                pathfinder.force_move_raw(actor_position)  -- Bewege den Spieler zum Altar
+                pathfinder.force_move_raw(actor_position)
             end
 
             if utils.distance_to(actor_position) <= 2 then
@@ -38,10 +46,11 @@ local task = {
 
                 utility.summon_boss()
                 settings.altar_activated = true
+                boss_summon_time = current_time  -- Set the boss summon time
             end
         end
 
-        explorer.is_task_running = false  -- Zurücksetzen des Flags
+        explorer.is_task_running = false
     end
 }
 return task

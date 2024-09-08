@@ -87,16 +87,17 @@ shouldExecute = function()
     
     -- Always execute if the inventory is full, regardless of the player's location
     if inventory_full then
+        tracker.needs_salvage = true
         return true
     end
     
     -- Continue the salvage process if in Cerrigar
-    if in_cerrigar then
-        return settings.salvage
+    if in_cerrigar and tracker.needs_salvage then
+        return true
     end
     
     -- If inventory is not full and not in Cerrigar, follow the usual conditions
-    return inventory_full and settings.salvage
+    return false
 end,
 
     
@@ -233,6 +234,7 @@ end,
                 
                 if item_count <= 32 then
                     tracker.has_salvaged = true
+                    tracker.needs_salvage = true
                     console.print("Salvage complete, item count is 15 or less. Moving to portal")
                     self.current_state = salvage_state.MOVING_TO_PORTAL
                 else
@@ -275,6 +277,8 @@ end,
             elseif current_time - self.portal_interact_time < 2 then
                 console.print("Interacting with the portal.")
                 interact_object(portal)
+                tracker.has_salvaged = false
+                tracker.needs_salvage = false
                 self:reset()
             elseif current_time - self.portal_interact_time < 5 then
                 console.print(string.format("Waiting at portal... Time elapsed: %.2f seconds", current_time - self.portal_interact_time))
@@ -293,7 +297,7 @@ end,
     finish_salvage = function(self)
         console.print("Finishing salvage task")
         tracker.has_salvaged = true
-        tracker.needs_salvage = false
+        tracker.needs_salvage = true
         self.current_state = salvage_state.MOVING_TO_PORTAL
         self.current_retries = 0
         console.print("Town salvage task finished")
