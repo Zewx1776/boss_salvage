@@ -67,9 +67,9 @@ function task_manager.execute_tasks()
     last_call_time = current_core_time
 
     for _, task in ipairs(tasks) do
-        if task.shouldExecute() then
+        if task:shouldExecute() then
             current_task = task
-            task.Execute()
+            task:Execute()
             break -- Execute only one task per pulse
         end
     end

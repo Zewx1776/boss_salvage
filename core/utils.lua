@@ -118,6 +118,19 @@ function utils.get_dungeon_entrance()
     end
 end
 
+function utils.get_blacksmith()
+    local actors = actors_manager:get_all_actors()
+    for _, actor in pairs(actors) do
+        local name = actor:get_skin_name()
+        if name == enums.misc.blacksmith then
+            console.print("blacksmith location found: " .. name)
+            return actor
+        end
+    end
+    --console.print("No blacksmith found")
+    return nil
+end
+
 local uber_table = { -- Should be all uber items :)
     { name = "Tyrael's Might", sno = 1901484 },
     { name = "The Grandfather", sno = 223271 },

@@ -4,6 +4,7 @@ local enums = {
         dungeon_entrance = "Portal_Dungeon_Generic"
     },
     positions = {
+        blacksmith_position = vec3:new(-1685.5394287109, -596.86566162109, 37.6484375),
         boss_room = {
             ["Boss_WT4_S2VampireLord"] = vec3:new(-10.556, -10.419, -3.120),
             ["Boss_WT4_Duriel"] = vec3:new(-3.616, -2.309, -3.689) ,
@@ -12,6 +13,18 @@ local enums = {
             ["Boss_WT4_MegaDemon"] = vec3:new(4.9245, 5.30860, 0.1279),
             ["Boss_WT4_Varshan"] = vec3:new(-3.28054, -3.1949, -3.30461279)
         }
+    },
+
+    misc = {
+        obelisk = "TWN_Kehj_IronWolves_PitKey_Crafter",
+        blacksmith = "TWN_Scos_Cerrigar_Crafter_Blacksmith",
+        jeweler = "TWN_Scos_Cerrigar_Vendor_Weapons",
+        portal = "TownPortal"
+    },
+
+    waypoints = {
+        CERRIGAR = 0x76D58,
+        LIBRARY = 0x10D63D
     }
 }
 
