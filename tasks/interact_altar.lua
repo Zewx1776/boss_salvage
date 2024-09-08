@@ -21,20 +21,21 @@ local task = {
     name = "Interact Altar",
     shouldExecute = function()
         local is_in_boss_zone = utils.match_player_zone("Boss_WT4_") or utils.match_player_zone("Boss_WT3_")
-        return is_in_boss_zone and interact_with_altar()
+        local no_loot_on_ground = not utils.loot_on_floor()
+        return is_in_boss_zone and interact_with_altar() and no_loot_on_ground
     end,
 
     Execute = function()
         local current_time = get_time_since_inject()
         
-        if boss_summon_time > 0 and current_time - boss_summon_time < 5 then
-            return  -- Wait for 10 seconds after boss summon
+        if boss_summon_time > 0 and current_time - boss_summon_time < 3 then
+            return  -- Wait for 5 seconds after boss summon
         end
 
         local altar = interact_with_altar()
         if altar then
             local actor_position = altar:get_position()
-            if utils.distance_to(actor_position) > 4 then
+            if utils.distance_to(actor_position) > 2 then
                 pathfinder.force_move_raw(actor_position)
             end
 
