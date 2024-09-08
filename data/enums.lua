@@ -16,6 +16,11 @@ local enums = {
         }
     },
 
+    quests = {
+        pit_ongoing = 1815152,
+        pit_started = 1922713
+    },
+
     misc = {
         obelisk = "TWN_Kehj_IronWolves_PitKey_Crafter",
         blacksmith = "TWN_Scos_Cerrigar_Crafter_Blacksmith",
