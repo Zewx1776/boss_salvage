@@ -80,21 +80,26 @@ local town_salvage_task = {
 
 
 
-    shouldExecute = function()
-        local player = get_local_player()
-        local item_count = utils.is_inventory_full()
-        local in_cerrigar = utils.player_in_zone("Scos_Cerrigar")
+shouldExecute = function()
+    local player = get_local_player()
+    local inventory_full = utils.is_inventory_full()
+    local in_cerrigar = utils.player_in_zone("Scos_Cerrigar")
     
-        -- If we're already in Cerrigar, continue the salvage process regardless of the gold chest
-        if in_cerrigar then
-            return settings.salvage
-        end
+    -- Always execute if the inventory is full, regardless of the player's location
+    if inventory_full then
+        return true
+    end
     
-        -- If we're not in Cerrigar, we need both high item count and a gold chest to start
-        return utils.is_inventory_full() and 
-               settings.salvage and
-               tracker.needs_salvage
-        end,
+    -- Continue the salvage process if in Cerrigar
+    if in_cerrigar then
+        return settings.salvage
+    end
+    
+    -- If inventory is not full and not in Cerrigar, follow the usual conditions
+    return inventory_full and settings.salvage
+end,
+
+    
 
     Execute = function(self)
         console.print("Executing Town Salvage Task")
