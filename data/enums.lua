@@ -25,7 +25,8 @@ local enums = {
         obelisk = "TWN_Kehj_IronWolves_PitKey_Crafter",
         blacksmith = "TWN_Scos_Cerrigar_Crafter_Blacksmith",
         jeweler = "TWN_Scos_Cerrigar_Vendor_Weapons",
-        portal = "TownPortal"
+        portal = "TownPortal",
+        suppressor = "monsterAffix_suppressor_barrier"
     },
 
     waypoints = {

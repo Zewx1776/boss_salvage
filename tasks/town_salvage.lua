@@ -133,7 +133,7 @@ end,
 
     init_salvage = function(self)
         console.print("Initializing salvage process")
-        if not utils.player_in_zone("Scos_Cerrigar") and get_local_player():get_item_count() >= 15 then
+        if not utils.player_in_zone("Scos_Cerrigar") and get_local_player():get_item_count() >= 21 then
             self.current_state = salvage_state.TELEPORTING
             self.teleport_start_time = get_time_since_inject()
             self.teleport_attempts = 0
@@ -232,7 +232,7 @@ end,
                 local item_count = get_local_player():get_item_count()
                 console.print("Current item count: " .. item_count)
                 
-                if item_count <= 32 then
+                if item_count <= 21 then
                     tracker.has_salvaged = true
                     tracker.needs_salvage = true
                     console.print("Salvage complete, item count is 15 or less. Moving to portal")

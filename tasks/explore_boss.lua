@@ -4,37 +4,23 @@ local explorer = require "core.explorer"
 local settings = require "core.settings"
 
 local task = {
-    name = "Explore Boss Dungeon",
+    name = "Move to Suppressor",
     shouldExecute = function()
         local is_in_boss_zone = utils.match_player_zone("Boss_WT4_") or utils.match_player_zone("Boss_WT3_")
-        
-        if not is_in_boss_zone then
-            return false
-        end
-
-        local player_position = get_player_position()
-        if player_position:dist_to(enums.positions.getBossRoomPosition(get_current_world():get_current_zone_name())) < 10 then
-            return false
-        end
-
-        return not utils.get_closest_enemy()
+        return is_in_boss_zone and utils.get_suppressor() ~= nil
     end,
 
     Execute = function()
-        
-        local player_position = get_player_position()
-        if player_position:dist_to(enums.positions.getBossRoomPosition(get_current_world():get_current_zone_name())) < 5 then
-            explorer.enabled = false
+        local suppressor = utils.get_suppressor()
+        if suppressor then
+            local suppressor_pos = suppressor:get_position()
+            --explorer:clear_path_and_target()
+            --explorer:set_custom_target(suppressor_pos)
+            --explorer:move_to_target()
+            pathfinder.force_move_raw(suppressor_pos)
+            console.print("Moving to suppressor")
         else
-            explorer.enabled = true
-        end
-
-        local player_pos = get_player_position()
-
-        if not settings.is_stuck then
-            explorer:clear_path_and_target()
-            explorer:set_custom_target(enums.positions.getBossRoomPosition(get_current_world():get_current_zone_name()))
-            explorer:move_to_target()
+            console.print("No suppressor found")
         end
     end
 }

@@ -151,6 +151,18 @@ function utils.is_uber_item(sno_to_check)
     return false
 end
 
+function utils.get_suppressor()
+    local actors = actors_manager:get_all_actors()
+    for _, actor in pairs(actors) do
+        local name = actor:get_skin_name()
+        if name == enums.misc.suppressor then
+            return actor
+        end
+    end
+end
+
+
+
 function utils.get_obelisk()
     local actors = actors_manager:get_all_actors()
     for _, actor in pairs(actors) do
@@ -205,7 +217,7 @@ end
 
 
 function utils.is_inventory_full()
-    return get_local_player():get_item_count() == 33
+    return get_local_player():get_item_count() >= 22
  end
 
 return utils

@@ -28,7 +28,7 @@ local task = {
     Execute = function()
         local current_time = get_time_since_inject()
         
-        if boss_summon_time > 0 and current_time - boss_summon_time < 3 then
+        if boss_summon_time > 0 and current_time - boss_summon_time < 5 then
             return  -- Wait for 5 seconds after boss summon
         end
 
