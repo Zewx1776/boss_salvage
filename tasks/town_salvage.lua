@@ -269,28 +269,38 @@ end,
         console.print("Interacting with portal")
         local portal = utils.get_town_portal()
         local current_time = get_time_since_inject()
+        local current_zone = get_current_world():get_current_zone_name()
     
         if portal then
-            if self.portal_interact_time == 0 then
-                console.print("Starting portal interaction timer.")
-                self.portal_interact_time = current_time
-            elseif current_time - self.portal_interact_time < 2 then
-                console.print("Interacting with the portal.")
-                interact_object(portal)
+            if current_zone:find("Cerrigar") or utils.player_in_zone("Scos_Cerrigar") then
+                if self.last_portal_interaction_time == nil or current_time - self.last_portal_interaction_time >= 1 then
+                    console.print("Still in Cerrigar, attempting to interact with portal")
+                    interact_object(portal)
+                    self.last_portal_interaction_time = current_time
+                end
+            else
+                console.print("Successfully left Cerrigar")
                 tracker.has_salvaged = false
                 tracker.needs_salvage = false
                 self:reset()
-            elseif current_time - self.portal_interact_time < 5 then
-                console.print(string.format("Waiting at portal... Time elapsed: %.2f seconds", current_time - self.portal_interact_time))
-            else
-                console.print("5 seconds have passed since portal interaction.")
-                self.current_state = salvage_state.FINISHED
+                return
+            end
+    
+            if self.portal_interact_time == 0 then
+                console.print("Starting portal interaction timer.")
+                self.portal_interact_time = current_time
+            elseif current_time - self.portal_interact_time >= 30 then
+                console.print("Portal interaction timed out after 30 seconds. Resetting task.")
                 self:reset()
-                console.print(string.format("Time passed since salvage: %.2f seconds", current_time - (self.reset_salvage_time or 0)))
+            else
+                console.print(string.format("Waiting for portal interaction... Time elapsed: %.2f seconds", current_time - self.portal_interact_time))
             end
         else
             console.print("Town portal not found")
-            self.current_state = salvage_state.MOVING_TO_PORTAL  -- Go back to moving if portal not found
+            tracker.has_salvaged = false
+            tracker.needs_salvage = false
+            self:reset()
+            self.current_state = salvage_state.INIT  -- Go back to moving if portal not found
         end
     end,
 
